@@ -102,12 +102,12 @@ Function Get-AppsWithNoAccessHistory {
             # Filter for audit log events pertaining to service principal signin
             $Filter = "signInEventTypes/any(t: t eq 'servicePrincipal') and "
             $Filter+= "(appId eq '$($App.AppId)')"
-            $AuditLogs = Get-MgBetaAuditLogSignIn -Filter $Filter
+            $AuditLogs = Get-MgBetaAuditLogSignIn -Filter $Filter -Top 1
 
             # Filter for audit log events pertaining to user access
             $Filter = "signInEventTypes/any(t: t ne 'servicePrincipal') and "
             $Filter+= "(appId eq '$($App.AppId)')"
-            $AuditLogs += Get-MgBetaAuditLogSignIn -Filter $Filter
+            $AuditLogs += Get-MgBetaAuditLogSignIn -Filter $Filter -Top 1
 
             if ( $AuditLogs.count -eq 0) {
                 $NoAuditLogApps += $App
