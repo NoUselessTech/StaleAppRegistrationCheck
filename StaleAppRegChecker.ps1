@@ -3,7 +3,7 @@ using module './Functions.psm1'
 try {
     # Simple bootstrap
     $InformationPreference = 'Continue'
-    $Version = "2023.11.27.01"
+    $Version = "2023.11.30.02"
     Write-Information " Stale App Registration Check (v: $Version)."
 
     # Check for and install dependencies
