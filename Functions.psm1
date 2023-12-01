@@ -92,7 +92,7 @@ Function Get-AppsWithNoAccessHistory {
 
         # Search through all the log types for the entity.
         $Count = 1
-        ForEach($App in $AppRegistrations) {
+        ForEach($App in $AppRegistrations) { 
             Write-Progress `
                 -Id 1 `
                 -Activity "Checking for apps without recent access history" `
@@ -100,14 +100,8 @@ Function Get-AppsWithNoAccessHistory {
                 -PercentComplete ($Count * 100 / $AppRegistrations.count)
 
             # Filter for audit log events pertaining to service principal signin
-            $Filter = "signInEventTypes/any(t: t eq 'servicePrincipal') and "
-            $Filter+= "(appId eq '$($App.AppId)')"
+            $Filter+= "appId eq '$($App.AppId)'"
             $AuditLogs = Get-MgBetaAuditLogSignIn -Filter $Filter -Top 1
-
-            # Filter for audit log events pertaining to user access
-            $Filter = "signInEventTypes/any(t: t ne 'servicePrincipal') and "
-            $Filter+= "(appId eq '$($App.AppId)')"
-            $AuditLogs += Get-MgBetaAuditLogSignIn -Filter $Filter -Top 1
 
             if ( $AuditLogs.count -eq 0) {
                 $NoAuditLogApps += $App
